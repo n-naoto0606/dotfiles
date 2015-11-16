@@ -39,6 +39,7 @@ NeoBundle 'scrooloose/nerdtree'
 
 " Gitを便利に使う
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv.git'
 
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
@@ -61,13 +62,12 @@ NeoBundle 'tpope/vim-surround'
 " インデントに色を付けて見やすくする
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
-" slimシンタックスハイライト
-NeoBundle 'slim-template/vim-slim'
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 let g:indent_guides_enable_on_vim_startup = 1
 
 " ログファイルを色づけしてくれる
 NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'kchmck/vim-coffee-script'
 
 " 行末の半角スペースを可視化
 NeoBundle 'bronson/vim-trailing-whitespace'
@@ -101,12 +101,12 @@ let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 NeoBundle 'Shougo/unite.vim'
 " Unite.vimで最近使ったファイルを表示できるようにする
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc' 
 """ markdown {{{
 autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
 autocmd BufRead,BufNewFile *.md  set filetype=markdown
 " Need: kannokanno/previm
-nnoremap <silent> <C-u> :PrevimOpen<CR>
+nnoremap <silent> <C-p> :PrevimOpen<CR>
 " }}}
 
 " http://blog.remora.cx/2010/12/vim-ref-with-unite.html
@@ -188,6 +188,11 @@ set autoindent
 set undofile
 
 set backspace=indent,eol,start
+
+"ビープ音すべてを無効にする
+set visualbell t_vb=
+set noerrorbells
+
 " ファイル形式の検出の有効化する
 " ファイル形式別プラグインのロードを有効化する
 " ファイル形式別インデントのロードを有効化する
@@ -204,7 +209,22 @@ set tabstop=2
 set shiftwidth=2
 set number
 set clipboard=unnamed,autoselect
+set directory=~/.vim/tmp
+set backupdir=~/.vim/tmp
+set undodir=~/.vim/tmp
 noremap <C-j> <esc>
 noremap! <C-j> <esc>
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+" コロンとセミコロンを入れ替え
+nnoremap ; :
 
+" 自動英数
+if executable('osascript')
+  let s:keycode_jis_eisuu = 102
+  let g:force_alphanumeric_input_command = "osascript -e 'tell application \"System Events\" to key code " . s:keycode_jis_eisuu . "' &"
+
+  inoremap   :call system(g:force_alphanumeric_input_command)
+
+  autocmd! FocusGained *
+    \ call system(g:force_alphanumeric_input_command)
+endif
