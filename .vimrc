@@ -1,84 +1,44 @@
-" -------------------------------
-" NeoBundle
-" -------------------------------
-if has('vim_starting')
-  if &compatible
-    set nocompatible
-  endif
-
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+if &compatible
+  set nocompatible
 endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" コード補完
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'marcus/rsense'
-NeoBundle 'supermomonga/neocomplete-rsense.vim'
-
-" 静的解析
-NeoBundle 'scrooloose/syntastic'
-
-" ドキュメント参照
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'yuku-t/vim-ref-ri'
-
-" メソッド定義元へのジャンプ
-NeoBundle 'szw/vim-tags'
-
-" 自動で閉じる
-NeoBundle 'tpope/vim-endwise'
-"powerline"
-NeoBundle 'Lokaltog/vim-powerline'
-call neobundle#end()
-
-NeoBundleCheck
-
-" ディレクトリツリー表示
-NeoBundle 'scrooloose/nerdtree'
-
-" Gitを便利に使う
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv.git'
-
-" grep検索の実行後にQuickFix Listを表示する
-autocmd QuickFixCmdPost *grep* cwindow
-
-" 高速grep
-NeoBundle 'rking/ag.vim'
+call dein#begin(expand('~/.vim/dein'))
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neomru.vim')
+call dein#add('marcus/rsense')
+call dein#add('supermomonga/neocomplete-rsense.vim')
+call dein#add('scrooloose/syntastic')
+call dein#add('szw/vim-tags')
+call dein#add('tpope/vim-endwise')
+call dein#add('Lokaltog/vim-powerline')
+call dein#add('scrooloose/nerdtree')
+call dein#add('tpope/vim-fugitive')
+call dein#add('gregsexton/gitv.git')
+call dein#add('rking/ag.vim')
+call dein#add('Townk/vim-autoclose')
+call dein#add('tpope/vim-rails')
+call dein#add('tomtom/tcomment_vim')
+call dein#add('tpope/vim-surround')
+call dein#add('vim-scripts/AnsiEsc.vim')
+call dein#add('kchmck/vim-coffee-script')
+call dein#add('bronson/vim-trailing-whitespace')
+call dein#add('plasticboy/vim-markdown')
+call dein#add('kannokanno/previm')
+call dein#add('tyru/open-browser.vim')
+call dein#add('ConradIrwin/vim-bracketed-paste')
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neomru.vim')
+call dein#add('thinca/vim-ref')
+call dein#end()
 
 " ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
 
-" Rails向けのコマンドを提供する
-NeoBundle 'tpope/vim-rails'
-
-" コメントON/OFFを手軽に実行
-NeoBundle 'tomtom/tcomment_vim'
-
-" シングルクオートとダブルクオートの入れ替え等
-NeoBundle 'tpope/vim-surround'
-
-" インデントに色を付けて見やすくする
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 let g:indent_guides_enable_on_vim_startup = 1
-
-" ログファイルを色づけしてくれる
-NeoBundle 'vim-scripts/AnsiEsc.vim'
-NeoBundle 'kchmck/vim-coffee-script'
-
-" 行末の半角スペースを可視化
-NeoBundle 'bronson/vim-trailing-whitespace'
-
-" Markdown時にブラウザにプレビュー表示する
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
-
-"paste
-NeoBundle 'ConradIrwin/vim-bracketed-paste'
 
 " -------------------------------
 " Rsense
@@ -97,12 +57,7 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
-" ファイルオープンを便利に
-NeoBundle 'Shougo/unite.vim'
-" Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/vimproc' 
-""" markdown {{{
+" markdown {{{
 autocmd BufRead,BufNewFile *.mkd  set filetype=markdown
 autocmd BufRead,BufNewFile *.md  set filetype=markdown
 " Need: kannokanno/previm
@@ -198,15 +153,25 @@ set noerrorbells
 " ファイル形式別インデントのロードを有効化する
 filetype plugin indent on
 
+" Go Settings
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports"
+
+
 " Powerline
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-set laststatus=2
-set showtabline=2
+set laststatus=4
+set showtabline=4
 set noshowmode
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set number
 set clipboard=unnamed,autoselect
 set directory=~/.vim/tmp
@@ -217,6 +182,10 @@ noremap! <C-j> <esc>
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " コロンとセミコロンを入れ替え
 nnoremap ; :
+
+" バッファ間移動
+nnoremap <silent>bp :bprevious<CR>
+nnoremap <silent>bn :bnext<CR>
 
 " 自動英数
 if executable('osascript')
